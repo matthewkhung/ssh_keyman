@@ -1,0 +1,46 @@
+[tool.poetry]
+name = "ssh_keyman"
+version = "0.1.0"
+description = "A tool to manage SSH keys with LUKS vaults."
+readme = "README.md"
+authors = ["Matthew Hung <matthew.k.hung@gmail.com>"]
+license = "MIT"
+packages = [
+    { include = "ssh_keyman/*.py" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+click = "^8.1.7"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2.5"
+pytest-mock = "^3.14.0"
+black = "^24.10.0"
+flake8-black = "^0.3.6"
+pre-commit = "^4.0.1"
+isort = "^5.13.2"
+ssort = "^0.14.0"
+Flake8-pyproject = "^1.2.3"
+
+[tool.poetry.scripts]
+ssh-keyman = "ssh_keyman.cli:ssh_keyman"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 88
+include = ''
+
+[tool.flake8]
+max-line-length = 88
+target-version = ['py310']
+extend-ignore = ["E203"]
+exclude = [".git", "__pycache__", "dist"]
+max-complexity = 10
+
+[tool.isort]
+profile = "black"
+skip_gitignore = true
