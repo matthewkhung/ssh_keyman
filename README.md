@@ -2,7 +2,7 @@
 
 This tool helps manage SSH private keys stored in a LUKS file vault and interacts with SSH-agent.
 
-## Prequisites
+## Prerequisites
 
 This program requires cryptsetup and must be installed before use. Running the program will also require root access.
 
