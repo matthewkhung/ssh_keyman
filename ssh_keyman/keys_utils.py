@@ -3,6 +3,14 @@ import os
 import subprocess
 
 
+def get_ssh_socket():
+    sock = os.environ.get("SSH_AUTH_SOCK")
+    if not sock:
+        raise ValueError("SSH_AUTH_SOCK environment variable not set")
+    else:
+        return sock
+
+
 def copy_ssh_key(src, dest):
     """
     Copy SSH keys to destination while keeping ownership.
@@ -57,8 +65,11 @@ def load_ssh_key(key_path):
     Loads key into SSH-agent.
     """
     try:
+        # check if ssh socket is open
+        get_ssh_socket()
+
         # add keys to agent
-        cmd = ["sudo", "ssh-add", key_path]
+        cmd = ["ssh-add", key_path]
         subprocess.run(cmd, check=True)
         logging.debug(f"Key {key_path} added to ssh-agent")
     except subprocess.CalledProcessError as e:
@@ -74,8 +85,11 @@ def unload_ssh_keys():
     Unloads all keys in SSH-agent.
     """
     try:
-        # add keys to agent
-        cmd = ["sudo", "ssh-add", "-D"]
+        # check if socket is open
+        get_ssh_socket()
+
+        # remove keys from agent
+        cmd = ["ssh-add", "-D"]
         subprocess.run(cmd, check=True)
         logging.debug("All keys removed from ssh-agent")
     except subprocess.CalledProcessError as e:

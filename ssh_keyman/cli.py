@@ -175,7 +175,9 @@ def load_keys(vault_path):
     """
     Load SSH keys into the SSH-agent from the LUKS vault.
     """
-    mnt = open_luks_vault(vault_path)
+    # prompt for passphrase
+    passphrase = getpass.getpass("Enter vault passphrase: ")
+    mnt = open_luks_vault(vault_path, passphrase)
     keys = get_ssh_key_list(mnt)
     for key in keys:
         load_ssh_key(key)
